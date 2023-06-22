@@ -1,0 +1,108 @@
+Based on the given specification, here are the core classes, functions, and methods that will be necessary:
+
+Core Classes:
+- ResourceAssumptions: This class will hold the resource assumptions inputted by the user.
+- Scheduler: This class will compute the number of diagnostic appointments needed per day based on the resource assumptions.
+
+Core Functions/Methods:
+- ResourceAssumptions.__init__(self, screening_appts, diagnostic_appts, radiologists, mammography_machines, screening_time, diagnostic_time): This method will initialize the ResourceAssumptions object with the inputted resource assumptions.
+- Scheduler.__init__(self, resource_assumptions): This method will initialize the Scheduler object with the ResourceAssumptions object.
+- Scheduler.compute_diagnostic_appts_needed(self): This method will compute the number of diagnostic appointments needed per day based on the resource assumptions.
+- Scheduler.display_diagnostic_appts_needed(self): This method will display the computed number of diagnostic appointments needed per day.
+
+Based on these classes and methods, we will need to create two Python files: `resource_assumptions.py` and `scheduler.py`.
+
+`resource_assumptions.py`
+```python
+class ResourceAssumptions:
+    def __init__(self, screening_appts=0, diagnostic_appts=0, radiologists=0, mammography_machines=0, screening_time=0, diagnostic_time=0):
+        """
+        Initializes the ResourceAssumptions object with the inputted resource assumptions.
+
+        Args:
+        - screening_appts (int): The number of screening appointments per day.
+        - diagnostic_appts (int): The number of diagnostic appointments per day.
+        - radiologists (int): The number of radiologists available per day.
+        - mammography_machines (int): The number of mammography machines available per day.
+        - screening_time (int): The average time it takes to perform a screening appointment.
+        - diagnostic_time (int): The average time it takes to perform a diagnostic appointment.
+        """
+        self.screening_appts = screening_appts
+        self.diagnostic_appts = diagnostic_appts
+        self.radiologists = radiologists
+        self.mammography_machines = mammography_machines
+        self.screening_time = screening_time
+        self.diagnostic_time = diagnostic_time
+```
+
+`scheduler.py`
+```python
+class Scheduler:
+    def __init__(self, resource_assumptions):
+        """
+        Initializes the Scheduler object with the ResourceAssumptions object.
+
+        Args:
+        - resource_assumptions (ResourceAssumptions): The ResourceAssumptions object containing the inputted resource assumptions.
+        """
+        self.resource_assumptions = resource_assumptions
+
+    def compute_diagnostic_appts_needed(self):
+        """
+        Computes the number of diagnostic appointments needed per day based on the resource assumptions.
+
+        Returns:
+        - diagnostic_appts_needed (int): The number of diagnostic appointments needed per day.
+        """
+        screening_appts = self.resource_assumptions.screening_appts
+        diagnostic_appts = self.resource_assumptions.diagnostic_appts
+        radiologists = self.resource_assumptions.radiologists
+        mammography_machines = self.resource_assumptions.mammography_machines
+        screening_time = self.resource_assumptions.screening_time
+        diagnostic_time = self.resource_assumptions.diagnostic_time
+
+        total_screening_time = screening_appts * screening_time
+        total_diagnostic_time = diagnostic_appts * diagnostic_time
+        total_time = total_screening_time + total_diagnostic_time
+        work_days_needed = total_time / (radiologists * mammography_machines * 480) # 480 minutes = 8 hours
+        diagnostic_appts_needed = total_diagnostic_time / (work_days_needed * 480)
+
+        return int(diagnostic_appts_needed)
+
+    def display_diagnostic_appts_needed(self):
+        """
+        Displays the computed number of diagnostic appointments needed per day.
+        """
+        diagnostic_appts_needed = self.compute_diagnostic_appts_needed()
+        print(f"Number of diagnostic appointments needed per day: {diagnostic_appts_needed}")
+```
+
+We will also need to create an `app.py` file as the entry point for the program.
+
+`app.py`
+```python
+from resource_assumptions import ResourceAssumptions
+from scheduler import Scheduler
+
+def main():
+    screening_appts = int(input("Enter the number of screening appointments per day: "))
+    diagnostic_appts = int(input("Enter the number of diagnostic appointments per day: "))
+    radiologists = int(input("Enter the number of radiologists available per day: "))
+    mammography_machines = int(input("Enter the number of mammography machines available per day: "))
+    screening_time = int(input("Enter the average time it takes to perform a screening appointment (in minutes): "))
+    diagnostic_time = int(input("Enter the average time it takes to perform a diagnostic appointment (in minutes): "))
+
+    resource_assumptions = ResourceAssumptions(screening_appts, diagnostic_appts, radiologists, mammography_machines, screening_time, diagnostic_time)
+    scheduler = Scheduler(resource_assumptions)
+    scheduler.display_diagnostic_appts_needed()
+
+if __name__ == "__main__":
+    main()
+```
+
+Finally, we will need to create a `requirements.txt` file to list the dependencies of the program.
+
+`requirements.txt`
+```
+sqlite3
+```
