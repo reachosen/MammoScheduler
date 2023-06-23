@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Simple Scheduler Mock
 
 Uses the following items:
@@ -10,3 +11,6 @@ Resource Availability - Availability of resources (staff, rooms, machines) for d
 No-show Rates is the Number of patients who fail to attend their diagnostic mammogram appointments.<br>
 Reschedule Rates is the Number of patients who need to reschedule their diagnostic mammogram appointments.<br>
 
+=======
+# MammoScheduler
+>>>>>>> 65021ce8f6623cab7b0f4af33d34144ea35d8dbc
